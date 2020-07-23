@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { backend } from "./conf";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
   const [books, setBooks] = useState([]);
-  const [newBooks, setNewBooks] = useState({});
-
   const [answer, setAnswer] = useState({
     titre: "",
     author: "",
@@ -15,9 +14,20 @@ function App() {
     rate: "",
     comment: "",
   });
+  const submitedData = useSelector((state) => state.book);
 
-  const handleSubmitRedux = () => {
-    console.log(answer);
+  const handleSubmit = () => {
+    console.log(submitedData);
+    axios
+      .post(`${backend}/books`, submitedData)
+      .then(
+        axios.get(`${backend}/books`).then((res) => {
+          setBooks(res.data);
+        })
+      )
+      .catch((err) => {
+        console.log("Erreur:", err);
+      });
   };
 
   const dispatchTitle = (va) =>
@@ -90,22 +100,6 @@ function App() {
     });
   }, []);
 
-  const handleChange = (e) => {
-    const dataBook = { ...newBooks, [e.target.name]: e.target.value };
-    setNewBooks(dataBook);
-  };
-
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    console.log(newBooks);
-    axios
-      .post(`${backend}/books`, newBooks)
-      .then()
-      .catch((err) => {
-        console.log("Erreur:", err);
-      });
-  };
-
   const handleDelete = (e) => {
     const id = e.target.name;
     axios
@@ -145,8 +139,7 @@ function App() {
       <h2>Add a book</h2>
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmitRedux(e);
+          handleSubmit(e);
         }}
       >
         <input
@@ -168,6 +161,7 @@ function App() {
         <input
           type="date"
           name="date"
+          value={answer.date}
           onChange={(e) => {
             handleChangeDate(e.target.value);
           }}
@@ -175,6 +169,7 @@ function App() {
         <input
           type="number"
           name="rate"
+          value={answer.rate}
           onChange={(e) => {
             handleChangeRate(e.target.value);
           }}
@@ -182,6 +177,7 @@ function App() {
         <input
           type="text"
           name="comment"
+          value={answer.comment}
           onChange={(e) => {
             handleChangeComment(e.target.value);
           }}

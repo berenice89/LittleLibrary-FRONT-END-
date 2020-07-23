@@ -3,7 +3,10 @@ import axios from "axios";
 import { backend } from "../conf";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import BookForm from "./BookForm";
+import OneBookDetails from "./OneBookDetails";
 
 function BooksData() {
   const dispatch = useDispatch();
@@ -15,6 +18,13 @@ function BooksData() {
     rate: "",
     comment: "",
   });
+
+  useEffect(() => {
+    axios.get(`${backend}/books`).then((res) => {
+      setBooks(res.data);
+    });
+  }, []);
+
   const submitedData = useSelector((state) => state.book);
 
   const handleSubmit = () => {
@@ -95,21 +105,18 @@ function BooksData() {
     dispatchComment(value);
   };
 
-  useEffect(() => {
-    axios.get(`${backend}/books`).then((res) => {
-      setBooks(res.data);
-    });
-  }, []);
-
   const handleDelete = (e) => {
     const id = e.target.name;
     axios
       .delete(`${backend}/books/${id}`)
+
       .then(
         axios.get(`${backend}/books`).then((res) => {
           setBooks(res.data);
         })
       )
+      .then(alert("Book removed from my shelf"))
+
       .catch((err) => {
         console.log("Erreur:", err);
       });
@@ -117,17 +124,24 @@ function BooksData() {
 
   return (
     <div>
-      <BookForm
-        books={books}
-        handleDelete={handleDelete}
-        handleSubmit={handleSubmit}
-        answer={answer}
-        handleChangeTitle={handleChangeTitle}
-        handleChangeAuthor={handleChangeAuthor}
-        handleChangeDate={handleChangeDate}
-        handleChangeRate={handleChangeRate}
-        handleChangeComment={handleChangeComment}
-      />
+      <Switch>
+        <Route path="/" exact>
+          <BookForm
+            books={books}
+            handleDelete={handleDelete}
+            handleSubmit={handleSubmit}
+            answer={answer}
+            handleChangeTitle={handleChangeTitle}
+            handleChangeAuthor={handleChangeAuthor}
+            handleChangeDate={handleChangeDate}
+            handleChangeRate={handleChangeRate}
+            handleChangeComment={handleChangeComment}
+          />
+        </Route>
+        <Route path="/book/:id">
+          <OneBookDetails handleDelete={handleDelete} />
+        </Route>
+      </Switch>
     </div>
   );
 }

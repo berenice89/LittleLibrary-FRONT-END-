@@ -1,11 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+import Reducer from "./reducers/Reducer";
 import * as serviceWorker from "./serviceWorker";
+
+const rootReducer = combineReducers({
+  book: Reducer,
+});
+
+/* eslint-disable no-underscore-dangle */
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+/* eslint-enable no-underscore-dangle */
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

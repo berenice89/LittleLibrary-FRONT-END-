@@ -4,6 +4,7 @@ import axios from "axios";
 function App() {
   const [books, setBooks] = useState([]);
   const [newBooks, setNewBooks] = useState({});
+
   useEffect(() => {
     axios.get("http://localhost:5050/books").then((res) => {
       setBooks(res.data);
@@ -18,9 +19,13 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(newBooks);
+    axios
+      .post("http://localhost:5050/books", newBooks)
+      .then()
+      .catch((err) => {
+        console.log("Erreur:", err);
+      });
   };
-
-  // MIN 23 - https://drive.google.com/drive/folders/1Imb2D9lTFrkL5Qndcec9YFeyNTjlxrBq
 
   return (
     <div>

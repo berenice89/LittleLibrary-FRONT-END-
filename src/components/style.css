@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(238, 174, 202);
+  background: linear-gradient(
+    90deg,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(211, 148, 233, 1) 100%
+  );
+}
+
+h1 {
+  text-transform: uppercase;
+  color: #fff;
+  margin: 70px 0;
+  text-align: center;
+  font-size: 3em;
+}
+
+.bookForm {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.addBook {
+  background-color: #fff;
+  border-radius: 20px;
+  -webkit-box-shadow: 0px 0px 42px 2px rgba(0, 0, 0, 0.22);
+  -moz-box-shadow: 0px 0px 42px 2px rgba(0, 0, 0, 0.22);
+  box-shadow: 0px 0px 42px 2px rgba(0, 0, 0, 0.22);
+  margin: 20px;
+  padding: 50px;
+  width: 300px;
+}
+.shelf {
+  background-color: #fff;
+  border-radius: 20px;
+  -webkit-box-shadow: 0px 0px 42px 2px rgba(0, 0, 0, 0.22);
+  -moz-box-shadow: 0px 0px 42px 2px rgba(0, 0, 0, 0.22);
+  box-shadow: 0px 0px 42px 2px rgba(0, 0, 0, 0.22);
+  margin: 20px;
+  padding: 50px;
+  width: 700px;
+}

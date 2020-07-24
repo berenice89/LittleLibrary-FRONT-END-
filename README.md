@@ -9,3 +9,5 @@ npm i react-redux
 npm i react-router-dom
 npm i @material-ui/core
 npm i @material-ui/styles
+npm i styled-components@4.1.3
+npm i @material-ui/icons
